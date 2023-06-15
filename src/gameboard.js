@@ -152,7 +152,7 @@ export default function Gameboard() {
     // checks for all sunk ships
     const shipsSunk = () => allShips.every((ship) => ship.isSunk());
 
-    const getShipLocation = () => {
+    const getShipLocations = () => {
         const shipLocationIDs = [];
         allShips.forEach((ship) => {
             const shipLocation = ship.getLocation();
@@ -169,7 +169,7 @@ export default function Gameboard() {
         resetBoard,
         getSquareGivenID,
         getCoords,
-        getShipLocation,
+        getShipLocations,
         board,
         getSquare,
         findShip,
