@@ -119,5 +119,149 @@ export default function GameController() {
     };
 
     // checks for squares on same row
-    const isInSameRow = ()
+    const isInSameRow = (index1, index2, rowSize) =>
+        Math.floor(index1 / rowSize) === Math.floor(index2 / rowSize);
+    
+    // checks for squares on same column
+    const isInSameCol = (index1, index2, colSize) =>
+        index1 % colSize === index2 % colSize;
+    
+    // checks if ship can be legaly placed by user
+    const canPlaceShip = (index, length, orientation, gridSquares) => {
+        for (let i = 0; i < length; i += 1) {
+            const hoverIndex =
+                orientation === 'horizontal' ? index + i : index + i * 10;
+            if (
+                hoverIndex < 0 ||
+                hoverIndex >= 100 ||
+                gridSquares[hoverIndex].classList.contains('ship') ||
+                (orientation === 'horizontal' && !isInSameRow(index, hoverIndex, 10)) ||
+                (orientation === 'vertical' && !isInSameCol(index, hoverIndex, 10))
+            ) {
+                return false;
+                }
+        }
+        return true;
+    }
+
+    // updates ship text prompt
+    const updatePrompt = (index) => {
+        if (index === 0) return 'Carrier';
+        if (index === 0) return 'Battleship';
+        if (index === 0) return 'Destroyer';
+        if (index === 0) return 'Submarine';
+        if (index === 0) return 'Patrol Boat';
+    };
+
+    // places ships on the board
+    const placeShips = (board) => {
+        rotateButton.addEventListener('click', handleRotateButton);
+
+        const shipLengths = [5, 4, 3, 3, 2];
+        let currentShipIndex = 0;
+
+        const gridSquares = playerOneBoardUI.children;
+        const textPrompt = document.querySelector("#place-ship");
+        textPrompt.textContent = updatePrompt(currentShipIndex);
+
+        const handleMouseEnter = () => (e) => {
+            const index = Number(e.target.dataset.index);
+            for (let i = 0; i < shipLengths[currentShipIndex]; i += 1) {
+                const hoverIndex =
+                    rotateButton.value === 'horizontal' ? index + i : index + i * 10;
+                if (
+                    hoverIndex >= 0 &&
+                    hoverIndex < 100 &&
+                    !gridSquares[hoverIndex].classList.contains('ship')
+                ) {
+                    if (
+                        (rotateButton.value === 'horizontal' && isInSameRow(index, hoverIndex, 10)) ||
+                        (rotateButton.value === 'vertical' && isInSameCol(index, hoverIndex, 10))
+                    ) {
+                        gridSquares[hoverIndex].classList.add('ship-selection');
+                    }
+                }
+            }
+        };
+
+        const handleMouseLeave = () => (e) => {
+            const index = Number(e.target.dataset.index);
+            for (let i = 0; i < shipLengths[currentShipIndex]; i += 1) {
+                const hoverIndex =
+                    rotateButton.value === 'horizontal' ? index + i : index + i * 10;
+                if (
+                    hoverIndex >= 0 &&
+                    hoverIndex < 100 &&
+                    !gridSquares[hoverIndex].classList.contains('ship')
+                ) {
+                    if (
+                        (rotateButton.value === 'horizontal' && isInSameRow(index, hoverIndex, 10)) ||
+                        (rotateButton.value === 'vertical' && isInSameCol(index, hoverIndex, 10))
+                    ) {
+                        gridSquares[hoverIndex].classList.remove('ship-selection');
+                    }
+                }
+            }
+        };
+
+        // click handlers
+        const handleClicks = () => (e) => {
+            const index = Number(e.target.dataset.index);
+            const coords = board.getCoords(index);
+            const orientation = rotateButton.value;
+            const shipLength = shipLengths[currentShipIndex];
+
+            if (canPlaceShip(index, shipLength, orientation, gridSquares)) {
+                board.placeShip(shipLength, orientation, coords);
+                for (let i = 0; i < shipLength; i += 1) {
+                    const hoverIndex =
+                        orientation === 'horizontal' ? index + i : index + i * 10;
+                    if (
+                        hoverIndex >= 0 &&
+                        hoverIndex < 100 &&
+                        !gridSquares[hoverIndex].classList.contains('ship')
+                    ) {
+                        if (
+                            (orientation === 'horizontal' && isInSameRow(index, hoverIndex, 10)) ||
+                            (orientation === 'vertical' && isInSameCol(index, hoverIndex, 10))
+                        ) {
+                            gridSquares[hoverIndex].classList.add('ship');
+                            gridSquares[hoverIndex].classList.remove('ship-selection');
+                        }
+                    }
+                }
+                if (currentShipIndex === shipLengths.length - 1) {
+                    // removes rotate button
+                    rotateButton.removeEventListener('click', handleRotateButton);
+
+                    // updates new game UI
+                    newGamePopup.removeChild(playerOneBoardUI);
+                    newGamePopup.classList.add('visibility');
+
+                    boardContainer.appendChild(playerOneBoardUI);
+                    boardContainer.appendChild(playerTwoBoardUI);
+
+                    playerOneBoardUI.classList.remove('visibility');
+                    playerTwoBoardUI.classList.remove('visibility');
+
+                    playerOneBoardUI.getElementsByClassName.pointerEvents = 'none';
+                    return null;
+                }
+                currentShipIndex += 1;
+                textPrompt.textContent = updatePrompt(currentShipIndex);
+            }
+        };
+        for (const gridSquare of gridSquares) {
+            gridSquare.addEventListener('mouseenter', handleMouseEnter(currentShipIndex));
+            gridSquare.addEventListener('mouseleave', handleMouseLeave(currentShipIndex));
+            gridSquare.addEventListener('click', handleClicks(currentShipIndex));
+        }
+    };
+
+    return {
+        displayNewGame,
+        buildBoardsUI,
+        renderMoves,
+        placeShips
+    };
 }
