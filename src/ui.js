@@ -55,7 +55,7 @@ export default function GameController() {
         playAgainButton.removeEventListener('click', handleEndGame);
         newGamePopup.classList.remove('visibility');
         playerTwoBoardUI.classList.toggle('game-end');
-        playerOneBoardUI.getElementsByClassName.pointerEvents = 'all';
+        playerOneBoardUI.style.pointerEvents = 'all';
         rotateButton.value = 'horizontal';
         endGameBackground.classList.toggle('filter-opened');
         endGamePopup.classList.remove('open-end-game-popup');
