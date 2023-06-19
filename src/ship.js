@@ -1,9 +1,9 @@
 export default function Ship(length, location) {
+    const getLength = () => length;
+
     let health = length;
     let sunk = false;
     let hits = 0;
-
-    const getLength = () => length;
 
     const isSunk = () => sunk;
     const getHits = () => hits;

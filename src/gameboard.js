@@ -51,6 +51,7 @@ export default function Gameboard() {
         for (let i = 0; i < allShips.length; i++) {
             const ship = allShips[i];
             const shipLocation = ship.getLocation();
+
             for (let j = 0; j < shipLocation.length; j++) {
                 const coordinate = shipLocation[j];
                 if (coordinate.toString() === coords.toString()) {
@@ -102,6 +103,8 @@ export default function Gameboard() {
         shipLocation.forEach((coordinate) => fillSquare(coordinate));
         const newShip = Ship(length, shipLocation);
         allShips.push(newShip);
+
+        return newShip;
     };
 
     // places AI ships

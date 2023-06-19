@@ -12,7 +12,7 @@ export default function GameController() {
     rotateButton.value = 'horizontal';
     const endGamePopup = document.querySelector(".game-over-popup");
     const endGameBackground = document.querySelector("#filter");
-    const playAgainButton = document.querySelector("#play-again");
+    const playAgainButton = document.querySelector("#replay");
     const winnerPrompt = document.querySelector("#winner");
 
     // builds boards to the DOM
@@ -40,7 +40,7 @@ export default function GameController() {
     const displayNewGame = () => {
         boardContainer.removeChild(playerOneBoardUI);
         boardContainer.removeChild(playerTwoBoardUI);
-        newGamePopup.appendChild(playerTwoBoardUI);
+        newGamePopup.appendChild(playerOneBoardUI);
         playerOneBoardUI.classList.remove('visibility');
     };
 
@@ -87,7 +87,7 @@ export default function GameController() {
 
                 // checks if player won on last moves
                 if (playerOne.checkWin()) {
-                    winnerPrompt.textContent = "You won!";
+                    winnerPrompt.textContent = "You Won!";
                     endGameBackground.classList.toggle('filter-opened');
                     endGamePopup.classList.add('open-end-game-popup');
                     playAgainButton.addEventListener('click', handleEndGame);
@@ -147,10 +147,10 @@ export default function GameController() {
     // updates ship text prompt
     const updatePrompt = (index) => {
         if (index === 0) return 'Carrier';
-        if (index === 0) return 'Battleship';
-        if (index === 0) return 'Destroyer';
-        if (index === 0) return 'Submarine';
-        if (index === 0) return 'Patrol Boat';
+        if (index === 1) return 'Battleship';
+        if (index === 2) return 'Destroyer';
+        if (index === 3) return 'Submarine';
+        if (index === 4) return 'Patrol Boat';
     };
 
     // places ships on the board
@@ -244,7 +244,7 @@ export default function GameController() {
                     playerOneBoardUI.classList.remove('visibility');
                     playerTwoBoardUI.classList.remove('visibility');
 
-                    playerOneBoardUI.getElementsByClassName.pointerEvents = 'none';
+                    playerOneBoardUI.style.pointerEvents = 'none';
                     return null;
                 }
                 currentShipIndex += 1;

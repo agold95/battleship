@@ -32,6 +32,12 @@ describe("gameboard", () => {
     expect(newGameboard.placeShip(3, "vertical", [6, 0])).toBeNull();
   });
 
+    test("ship can be located given coordinates", () => {
+    const shipA = newGameboard.placeShip(4, "vertical", [5, 0]);
+    newGameboard.placeShip(3, "horizontal", [0, 0]);
+    expect(newGameboard.findShip([5, 0])).toEqual(shipA);
+  });
+
   test("accurate attack successfully hits ship", () => {
     newGameboard.placeShip(4, "horizontal", [0, 0]);
     newGameboard.receiveHit([0, 0]);
@@ -64,5 +70,9 @@ describe("gameboard", () => {
     newGameboard.receiveHit([0, 2]);
     newGameboard.receiveHit([1, 0]);
     expect(newGameboard.shipsSunk()).toBe(true);
+  });
+
+  test("square can be retrieved given an id", () => {
+    expect(newGameboard.getSquareGivenID(1199)).toHaveProperty("id", 1199);
   });
 });

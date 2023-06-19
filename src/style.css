@@ -1,0 +1,178 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+    background-color: rgb(36, 78, 100);
+    display: flex;
+    justify-content: center;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    gap: 3rem;
+}
+
+.title {
+    padding-top: 1em;
+    font-size: 3em;
+    letter-spacing: 10px;
+}
+
+.gameboard-container {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 2rem;
+}
+
+.text-prompt {
+    margin-bottom: 2rem;
+}
+
+#place-ship {
+    color: red;
+}
+
+#player-one-board, #player-two-board {
+    display: grid;
+    grid-template-columns: repeat(10, 45px);
+    border: 1px solid black;
+}
+
+#player-two-board .board-square:not(.miss):not(.hit):hover {
+    filter: opacity(65%);
+    cursor: pointer;
+}
+
+.board-square {
+    height: 45px;
+    width: 45px;
+    border: 1px solid black;
+    background-color: rgb(46, 129, 184);
+}
+
+#new-game-popup {
+    margin-top: 5rem;
+    position: absolute;
+    align-self: center;
+    z-index: 3;
+    top: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#new-game-popup span {
+    font-size: 30px;
+    font-weight: 600;
+    padding-bottom: 2rem;
+}
+
+button#rotate {
+    margin-bottom: 2rem;
+    font-size: 1.5em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5em 2em;
+    cursor: pointer;
+    min-width: 150px;
+}
+
+.visibility {
+    visibility: hidden;
+}
+
+.ship {
+    background-color: rgb(61, 61, 61);
+    z-index: 5;
+}
+
+.hit, .miss {
+    pointer-events: none;
+}
+
+.hit {
+    background-color: rgb(128, 5, 5);
+}
+
+.miss {
+    background-color: rgb(14, 53, 110);
+}
+
+.game-end {
+    pointer-events: none;
+}
+
+.ship-selection {
+    background-color: #425161;
+}
+
+.game-over-popup {
+    position: fixed;
+    min-width: 500px;
+    min-height: 350px;
+    left: 50%;
+    top: 50%;
+    border-radius: 6px;
+    border: 1px solid black;
+    background-color: #6f8aa7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.15);
+    visibility: hidden;
+    transform: translate(-50%, -50%) scale(0.1);
+    transition: transform 0.4s;
+}
+
+.open-end-game-popup {
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.filter-opened {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 900;
+}
+
+button#replay {
+    margin-bottom: 3em;
+    font-size: 1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    padding: 30px 90px;
+    cursor: pointer;
+}
+
+#winner {
+    font-size: 2em;
+    margin-bottom: 2em;
+}
+
+button {
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: #98a7b6;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

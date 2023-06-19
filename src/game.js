@@ -7,7 +7,7 @@ const playerTwoBoard = Gameboard();
 
 export default function Game() {
     const startGame = () => {
-        const game = GameController();
+        const gamecontroller = GameController();
         playerOneBoard.resetBoard();
         playerOneBoard.resetShips();
         playerTwoBoard.resetBoard();
@@ -16,17 +16,17 @@ export default function Game() {
         // adds players and board
         const playerOne = Player(playerOneBoard, playerTwoBoard);
         const playerTwo = Player(playerTwoBoard, playerOneBoard);
-        game.buildBoardsUI(playerOneBoard, playerTwoBoard);
+        gamecontroller.buildBoardsUI(playerOneBoard, playerTwoBoard);
 
         // place AI ships
         playerTwoBoard.placeAIShips();
 
         // place user ships
-        game.displayNewGame();
-        game.placeShips(playerOneBoard);
+        gamecontroller.displayNewGame();
+        gamecontroller.placeShips(playerOneBoard);
 
         // play rounds
-        game.renderMoves(playerOne, playerTwo, playerTwoBoard);
+        gamecontroller.renderMoves(playerOne, playerTwo, playerTwoBoard);
     };
     return { startGame };
 }

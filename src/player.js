@@ -37,7 +37,7 @@ export default function Player(playerBoard, enemyBoard) {
             return true;
         }
         return false;
-    }
+    };
 
     return { makeMove, AIMove, moves, getWins, checkWin };
 }
